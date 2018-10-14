@@ -1,45 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Win32;
 
-namespace PradApp_Master___Utilizer
+namespace RegSearcher
 {
-    public static class Searcher
-    {
-        /// <summary>Перечисление всех доступных типов поиска</summary>
-        public enum SearchModes
-        {
-            Variables,
-            Roots,
-            Values
-        }
-        /// <summary>Текущий режим поиска</summary>
-        public static SearchModes CurrentSearchMode = SearchModes.Roots;
-
-        /// <summary>Целая строка или составная часть строки</summary>
-        public static bool IsUnitString;
-
-        /// <summary>
-        ///  Чувствительность к регистру
-        /// </summary>
-        public static StringComparison ComparisonType = StringComparison.OrdinalIgnoreCase;
-
-        /// <summary>Коллекция путей реестра, где осуществляется поиск</summary>
-        public static List<Hive> HivesList { get; private set; }
-
-        public static void AddHive(RegistryKey registryKey, bool selected = false)
-        {
-            if (HivesList == null)
-                HivesList = new List<Hive>();
-
-            HivesList.Add(new Hive
-            {
-                RegKey = registryKey,
-                IsSelected = selected
-            });
-        }
-    }
-
     public static class Consts
     {
         public const string Hkcr = "HKEY_CLASSES_ROOT";

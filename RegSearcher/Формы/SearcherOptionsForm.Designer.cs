@@ -1,4 +1,4 @@
-﻿namespace PradApp_Master___Utilizer
+﻿namespace RegSearcher
 {
     partial class SearcherOptionsForm
     {
@@ -240,7 +240,7 @@
             // 
             // UnMarkBtn
             // 
-            this.UnMarkBtn.BackgroundImage = global::PradApp_Master___Utilizer.Properties.Resources.UnMarkAll;
+            this.UnMarkBtn.BackgroundImage = global::RegSearcher.Properties.Resources.UnMarkAll;
             this.UnMarkBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.UnMarkBtn.FlatAppearance.BorderSize = 0;
             this.UnMarkBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
@@ -257,7 +257,7 @@
             // 
             // MarkAllBtn
             // 
-            this.MarkAllBtn.BackgroundImage = global::PradApp_Master___Utilizer.Properties.Resources.MarkAll;
+            this.MarkAllBtn.BackgroundImage = global::RegSearcher.Properties.Resources.MarkAll;
             this.MarkAllBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.MarkAllBtn.FlatAppearance.BorderSize = 0;
             this.MarkAllBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
@@ -274,7 +274,7 @@
             // 
             // AddRootBtn
             // 
-            this.AddRootBtn.BackgroundImage = global::PradApp_Master___Utilizer.Properties.Resources.Add;
+            this.AddRootBtn.BackgroundImage = global::RegSearcher.Properties.Resources.Add;
             this.AddRootBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.AddRootBtn.FlatAppearance.BorderColor = System.Drawing.Color.DarkGray;
             this.AddRootBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));

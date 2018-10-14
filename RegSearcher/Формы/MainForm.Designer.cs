@@ -1,4 +1,4 @@
-﻿namespace PradApp_Master___Utilizer
+﻿namespace RegSearcher
 {
     partial class MainForm
     {
@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.StartBtn = new System.Windows.Forms.Button();
             this.SaveDataFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -49,7 +49,7 @@
             this.MainTabPage = new System.Windows.Forms.TabPage();
             this.ResultTabPage = new System.Windows.Forms.TabPage();
             this.CancelSearchLink = new System.Windows.Forms.LinkLabel();
-            this.LCurRoot = new System.Windows.Forms.Label();
+            this.ProgressSearch = new MetroFramework.Controls.MetroProgressSpinner();
             this.ResultDGV = new System.Windows.Forms.DataGridView();
             this.Column2 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -57,7 +57,6 @@
             this.LResInfo = new System.Windows.Forms.Label();
             this.BackBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.ProgressSearch = new MetroFramework.Controls.MetroProgressSpinner();
             this.MainTabControl.SuspendLayout();
             this.MainTabPage.SuspendLayout();
             this.ResultTabPage.SuspendLayout();
@@ -93,12 +92,12 @@
             // CloseAppBtn
             // 
             this.CloseAppBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CloseAppBtn.BackgroundImage = global::PradApp_Master___Utilizer.Properties.Resources.AppExit;
+            this.CloseAppBtn.BackgroundImage = global::RegSearcher.Properties.Resources.AppExit;
             this.CloseAppBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.CloseAppBtn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.CloseAppBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
             this.CloseAppBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CloseAppBtn.Location = new System.Drawing.Point(731, 10);
+            this.CloseAppBtn.Location = new System.Drawing.Point(733, 7);
             this.CloseAppBtn.Name = "CloseAppBtn";
             this.CloseAppBtn.Size = new System.Drawing.Size(25, 25);
             this.CloseAppBtn.TabIndex = 78;
@@ -108,7 +107,7 @@
             // 
             // OptionsBtn
             // 
-            this.OptionsBtn.BackgroundImage = global::PradApp_Master___Utilizer.Properties.Resources.Settings;
+            this.OptionsBtn.BackgroundImage = global::RegSearcher.Properties.Resources.Settings;
             this.OptionsBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.OptionsBtn.FlatAppearance.BorderSize = 0;
             this.OptionsBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
@@ -124,7 +123,7 @@
             // SaveBtn
             // 
             this.SaveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SaveBtn.BackgroundImage = global::PradApp_Master___Utilizer.Properties.Resources.SaveData;
+            this.SaveBtn.BackgroundImage = global::RegSearcher.Properties.Resources.SaveData;
             this.SaveBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.SaveBtn.FlatAppearance.BorderSize = 0;
             this.SaveBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
@@ -141,7 +140,7 @@
             // 
             // UnMarkBtn
             // 
-            this.UnMarkBtn.BackgroundImage = global::PradApp_Master___Utilizer.Properties.Resources.UnMarkAll;
+            this.UnMarkBtn.BackgroundImage = global::RegSearcher.Properties.Resources.UnMarkAll;
             this.UnMarkBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.UnMarkBtn.FlatAppearance.BorderSize = 0;
             this.UnMarkBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
@@ -158,7 +157,7 @@
             // 
             // MarkBtn
             // 
-            this.MarkBtn.BackgroundImage = global::PradApp_Master___Utilizer.Properties.Resources.MarkAll;
+            this.MarkBtn.BackgroundImage = global::RegSearcher.Properties.Resources.MarkAll;
             this.MarkBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.MarkBtn.FlatAppearance.BorderSize = 0;
             this.MarkBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
@@ -175,7 +174,7 @@
             // 
             // RemoveBtn
             // 
-            this.RemoveBtn.BackgroundImage = global::PradApp_Master___Utilizer.Properties.Resources.RemoveMarked;
+            this.RemoveBtn.BackgroundImage = global::RegSearcher.Properties.Resources.RemoveMarked;
             this.RemoveBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.RemoveBtn.FlatAppearance.BorderSize = 0;
             this.RemoveBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
@@ -193,12 +192,12 @@
             // MinimizeAppBtn
             // 
             this.MinimizeAppBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.MinimizeAppBtn.BackgroundImage = global::PradApp_Master___Utilizer.Properties.Resources.AppMinimize;
+            this.MinimizeAppBtn.BackgroundImage = global::RegSearcher.Properties.Resources.AppMinimize;
             this.MinimizeAppBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.MinimizeAppBtn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.MinimizeAppBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.CornflowerBlue;
             this.MinimizeAppBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.MinimizeAppBtn.Location = new System.Drawing.Point(700, 10);
+            this.MinimizeAppBtn.Location = new System.Drawing.Point(702, 7);
             this.MinimizeAppBtn.Name = "MinimizeAppBtn";
             this.MinimizeAppBtn.Size = new System.Drawing.Size(25, 25);
             this.MinimizeAppBtn.TabIndex = 84;
@@ -207,7 +206,6 @@
             // 
             // SearchBackgroundWorker
             // 
-            this.SearchBackgroundWorker.WorkerReportsProgress = true;
             this.SearchBackgroundWorker.WorkerSupportsCancellation = true;
             this.SearchBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.SearchBackgroundWorker_DoWork);
             this.SearchBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.SearchRootFlow_Completed);
@@ -284,7 +282,6 @@
             // 
             this.ResultTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.ResultTabPage.Controls.Add(this.CancelSearchLink);
-            this.ResultTabPage.Controls.Add(this.LCurRoot);
             this.ResultTabPage.Controls.Add(this.ProgressSearch);
             this.ResultTabPage.Controls.Add(this.ResultDGV);
             this.ResultTabPage.Controls.Add(this.panel1);
@@ -301,7 +298,7 @@
             this.CancelSearchLink.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.CancelSearchLink.Font = new System.Drawing.Font("Segoe UI Symbol", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CancelSearchLink.LinkColor = System.Drawing.Color.Orange;
-            this.CancelSearchLink.Location = new System.Drawing.Point(358, 204);
+            this.CancelSearchLink.Location = new System.Drawing.Point(358, 207);
             this.CancelSearchLink.Name = "CancelSearchLink";
             this.CancelSearchLink.Size = new System.Drawing.Size(58, 17);
             this.CancelSearchLink.TabIndex = 91;
@@ -310,15 +307,22 @@
             this.CancelSearchLink.Visible = false;
             this.CancelSearchLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CancelSearchLink_LinkClicked);
             // 
-            // LCurRoot
+            // ProgressSearch
             // 
-            this.LCurRoot.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
-            this.LCurRoot.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LCurRoot.Location = new System.Drawing.Point(10, 322);
-            this.LCurRoot.Name = "LCurRoot";
-            this.LCurRoot.Size = new System.Drawing.Size(743, 83);
-            this.LCurRoot.TabIndex = 89;
-            this.LCurRoot.Visible = false;
+            this.ProgressSearch.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ProgressSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
+            this.ProgressSearch.CustomBackground = true;
+            this.ProgressSearch.Location = new System.Drawing.Point(306, 144);
+            this.ProgressSearch.Maximum = 100;
+            this.ProgressSearch.Name = "ProgressSearch";
+            this.ProgressSearch.Size = new System.Drawing.Size(161, 161);
+            this.ProgressSearch.Speed = 4F;
+            this.ProgressSearch.Style = MetroFramework.MetroColorStyle.Yellow;
+            this.ProgressSearch.TabIndex = 88;
+            this.ProgressSearch.UseCustomBackColor = true;
+            this.ProgressSearch.UseSelectable = true;
+            this.ProgressSearch.Value = 30;
+            this.ProgressSearch.Visible = false;
             // 
             // ResultDGV
             // 
@@ -326,38 +330,38 @@
             this.ResultDGV.AllowUserToDeleteRows = false;
             this.ResultDGV.AllowUserToResizeColumns = false;
             this.ResultDGV.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
-            this.ResultDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.Color.White;
+            this.ResultDGV.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
             this.ResultDGV.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ResultDGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.ResultDGV.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.ResultDGV.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ResultDGV.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ResultDGV.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.ResultDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ResultDGV.ColumnHeadersVisible = false;
             this.ResultDGV.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column2,
             this.Column1});
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ResultDGV.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(225)))), ((int)(((byte)(225)))));
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ResultDGV.DefaultCellStyle = dataGridViewCellStyle9;
             this.ResultDGV.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
             this.ResultDGV.Location = new System.Drawing.Point(1, 27);
             this.ResultDGV.Name = "ResultDGV";
@@ -388,7 +392,7 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
             this.panel1.Controls.Add(this.LResInfo);
             this.panel1.Controls.Add(this.SaveBtn);
             this.panel1.Controls.Add(this.UnMarkBtn);
@@ -428,30 +432,14 @@
             // 
             // label1
             // 
+            this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(2, 8);
+            this.label1.Location = new System.Drawing.Point(305, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(765, 23);
+            this.label1.Size = new System.Drawing.Size(168, 23);
             this.label1.TabIndex = 89;
             this.label1.Text = "RegSearcher 1.0";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ProgressSearch
-            // 
-            this.ProgressSearch.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.ProgressSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
-            this.ProgressSearch.CustomBackground = true;
-            this.ProgressSearch.Location = new System.Drawing.Point(306, 126);
-            this.ProgressSearch.Maximum = 100;
-            this.ProgressSearch.Name = "ProgressSearch";
-            this.ProgressSearch.Size = new System.Drawing.Size(160, 160);
-            this.ProgressSearch.Speed = 4F;
-            this.ProgressSearch.Style = MetroFramework.MetroColorStyle.Yellow;
-            this.ProgressSearch.TabIndex = 88;
-            this.ProgressSearch.UseCustomBackColor = true;
-            this.ProgressSearch.UseSelectable = true;
-            this.ProgressSearch.Value = 30;
-            this.ProgressSearch.Visible = false;
             // 
             // MainForm
             // 
@@ -482,6 +470,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -506,7 +495,6 @@
         private System.Windows.Forms.DataGridView ResultDGV;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.Label LCurRoot;
         private System.Windows.Forms.Button BackBtn;
         private System.Windows.Forms.LinkLabel CancelSearchLink;
         private System.Windows.Forms.Label label1;

@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
-namespace PradApp_Master___Utilizer
+namespace RegSearcher
 {
     public partial class SearcherOptionsForm : Form
     {
@@ -13,21 +13,23 @@ namespace PradApp_Master___Utilizer
         /// <summary>Цвет кнопок, деактивированных параметров</summary>
         private readonly Color _enableColor = Color.GreenYellow;
 
+        private readonly Searcher _searcher = Searcher.GetInstance();
+
         ////////////////////////////////////////////////////
         public SearcherOptionsForm() => InitializeComponent();
         
         private void SearcherOptions_Load(object sender, EventArgs e)
         {
-            foreach (var hive in Searcher.HivesList)
+            foreach (var hive in _searcher.HivesList)
             {
                 RootsDGV.Rows.Add(hive.IsSelected, hive.RegKey.Name);
             }
 
             // Устанавливаем цвета кнопок по значению флагов
-            UnitWordTile.BackColor = Searcher.IsUnitString ? _enableColor : _disableColor;
-            CompTile.BackColor = Searcher.ComparisonType == StringComparison.Ordinal ? _enableColor : _disableColor;
+            UnitWordTile.BackColor = _searcher.IsUnitString ? _enableColor : _disableColor;
+            CompTile.BackColor = _searcher.ComparisonType == StringComparison.Ordinal ? _enableColor : _disableColor;
 
-            switch (Searcher.CurrentSearchMode)
+            switch (_searcher.CurrentSearchMode)
             {
                 case Searcher.SearchModes.Variables:
                     {
@@ -64,11 +66,11 @@ namespace PradApp_Master___Utilizer
         {
             TemplateFunc(NameKeyTile, 
                 () => {
-                    Searcher.CurrentSearchMode = Searcher.SearchModes.Roots;
+                    _searcher.CurrentSearchMode = Searcher.SearchModes.Roots;
                     ValueKeyTile.Enabled = true;
                 },
                 () => {
-                    Searcher.CurrentSearchMode = Searcher.SearchModes.Variables;
+                    _searcher.CurrentSearchMode = Searcher.SearchModes.Variables;
                     ValueKeyTile.Enabled = false;
                 }
             );
@@ -78,11 +80,11 @@ namespace PradApp_Master___Utilizer
         {
             TemplateFunc(ValueKeyTile,
                 () => {
-                    Searcher.CurrentSearchMode = Searcher.SearchModes.Roots;
+                    _searcher.CurrentSearchMode = Searcher.SearchModes.Roots;
                     NameKeyTile.Enabled = true;
                 },
                 () => {
-                    Searcher.CurrentSearchMode = Searcher.SearchModes.Values;
+                    _searcher.CurrentSearchMode = Searcher.SearchModes.Values;
                     NameKeyTile.Enabled = false;
                 }
 
@@ -92,16 +94,16 @@ namespace PradApp_Master___Utilizer
         private void UnitWordTile_Click(object sender, EventArgs e)
         {
             TemplateFunc(UnitWordTile,
-                () => Searcher.IsUnitString = false,
-                () => Searcher.IsUnitString = true
+                () => _searcher.IsUnitString = false,
+                () => _searcher.IsUnitString = true
             );
         }
 
         private void CompTile_Click(object sender, EventArgs e)
         {
             TemplateFunc(CompTile,
-                () => Searcher.ComparisonType = StringComparison.OrdinalIgnoreCase,
-                () => Searcher.ComparisonType = StringComparison.Ordinal
+                () => _searcher.ComparisonType = StringComparison.OrdinalIgnoreCase,
+                () => _searcher.ComparisonType = StringComparison.Ordinal
             );
         }
          
@@ -113,32 +115,33 @@ namespace PradApp_Master___Utilizer
 
         private void AddRootBtn_Click(object sender, EventArgs e)
         {
+
             string tmp = RootTbox.Text;
 
             if (tmp.Contains(Consts.Hkcr))
             {
                 tmp = tmp.Remove(0, Consts.Hkcr.Length - 1);
-                Searcher.AddHive(Registry.ClassesRoot.OpenSubKey(tmp));
+                _searcher.AddHive(Registry.ClassesRoot.OpenSubKey(tmp));
             }
             else if (tmp.Contains(Consts.Hkcu))
             {
                 tmp = tmp.Remove(0, Consts.Hkcu.Length + 1);
-                Searcher.AddHive(Registry.CurrentUser.OpenSubKey(tmp));
+                _searcher.AddHive(Registry.CurrentUser.OpenSubKey(tmp));
             }
             else if (tmp.Contains(Consts.Hkcc))
             {
                 tmp = tmp.Remove(0, Consts.Hkcc.Length - 1);
-                Searcher.AddHive(Registry.CurrentConfig.OpenSubKey(tmp));
+                _searcher.AddHive(Registry.CurrentConfig.OpenSubKey(tmp));
             }
             else if (tmp.Contains(Consts.Hklm))
             {
                 tmp = tmp.Remove(0, Consts.Hklm.Length - 1);
-                Searcher.AddHive(Registry.LocalMachine.OpenSubKey(tmp));
+                _searcher.AddHive(Registry.LocalMachine.OpenSubKey(tmp));
             }
             else if (tmp.Contains(Consts.Hku))
             {
                 tmp = tmp.Remove(0, Consts.Hku.Length - 1);
-                Searcher.AddHive(Registry.Users.OpenSubKey(tmp));
+                _searcher.AddHive(Registry.Users.OpenSubKey(tmp));
             }
             else
             {
@@ -178,15 +181,15 @@ namespace PradApp_Master___Utilizer
 
             if (RootsDGV[0, e.RowIndex].Value.Equals(true))
             {
-                var tmp = Searcher.HivesList[e.RowIndex];
+                var tmp = _searcher.HivesList[e.RowIndex];
                 tmp.IsSelected = true;
-                Searcher.HivesList[e.RowIndex] = tmp;
+                _searcher.HivesList[e.RowIndex] = tmp;
             }
             else
             {
-                var tmp = Searcher.HivesList[e.RowIndex];
+                var tmp = _searcher.HivesList[e.RowIndex];
                 tmp.IsSelected = false;
-                Searcher.HivesList[e.RowIndex] = tmp;
+                _searcher.HivesList[e.RowIndex] = tmp;
             }
         }
 
@@ -199,7 +202,7 @@ namespace PradApp_Master___Utilizer
                     Msg("Этот путь удалить нельзя!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                Searcher.HivesList.RemoveAt(e.RowIndex);
+                _searcher.HivesList.RemoveAt(e.RowIndex);
                 RootsDGV.Rows.RemoveAt(e.RowIndex);
             }
         }

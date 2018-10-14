@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PradApp_Master___Utilizer
+namespace RegSearcher
 {
     public static class Restyler
     {
