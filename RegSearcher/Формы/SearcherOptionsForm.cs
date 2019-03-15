@@ -20,16 +20,19 @@ namespace RegSearcher
         
         private void SearcherOptions_Load(object sender, EventArgs e)
         {
+            // Перерисуем окно
+            Restyler.WindowsReStyle(Handle);
+
             foreach (var hive in _searcher.HivesList)
             {
-                RootsDGV.Rows.Add(hive.IsSelected, hive.RegKey.Name);
+                RootsDGV.Rows.Add(hive.Item2, hive.Item1.Name);
             }
 
             // Устанавливаем цвета кнопок по значению флагов
             UnitWordTile.BackColor = _searcher.IsUnitString ? _enableColor : _disableColor;
             CompTile.BackColor = _searcher.ComparisonType == StringComparison.Ordinal ? _enableColor : _disableColor;
 
-            switch (_searcher.CurrentSearchMode)
+            switch (_searcher.CurrentMode)
             {
                 case Searcher.SearchModes.Variables:
                     {
@@ -66,11 +69,11 @@ namespace RegSearcher
         {
             TemplateFunc(NameKeyTile, 
                 () => {
-                    _searcher.CurrentSearchMode = Searcher.SearchModes.Roots;
+                    _searcher.CurrentMode = Searcher.SearchModes.Roots;
                     ValueKeyTile.Enabled = true;
                 },
                 () => {
-                    _searcher.CurrentSearchMode = Searcher.SearchModes.Variables;
+                    _searcher.CurrentMode = Searcher.SearchModes.Variables;
                     ValueKeyTile.Enabled = false;
                 }
             );
@@ -80,11 +83,11 @@ namespace RegSearcher
         {
             TemplateFunc(ValueKeyTile,
                 () => {
-                    _searcher.CurrentSearchMode = Searcher.SearchModes.Roots;
+                    _searcher.CurrentMode = Searcher.SearchModes.Roots;
                     NameKeyTile.Enabled = true;
                 },
                 () => {
-                    _searcher.CurrentSearchMode = Searcher.SearchModes.Values;
+                    _searcher.CurrentMode = Searcher.SearchModes.Values;
                     NameKeyTile.Enabled = false;
                 }
 
@@ -115,7 +118,6 @@ namespace RegSearcher
 
         private void AddRootBtn_Click(object sender, EventArgs e)
         {
-
             string tmp = RootTbox.Text;
 
             if (tmp.Contains(Consts.Hkcr))
@@ -182,13 +184,13 @@ namespace RegSearcher
             if (RootsDGV[0, e.RowIndex].Value.Equals(true))
             {
                 var tmp = _searcher.HivesList[e.RowIndex];
-                tmp.IsSelected = true;
+                tmp.Item2 = true;
                 _searcher.HivesList[e.RowIndex] = tmp;
             }
             else
             {
                 var tmp = _searcher.HivesList[e.RowIndex];
-                tmp.IsSelected = false;
+                tmp.Item2 = false;
                 _searcher.HivesList[e.RowIndex] = tmp;
             }
         }

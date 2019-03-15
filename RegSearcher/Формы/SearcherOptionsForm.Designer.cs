@@ -47,8 +47,8 @@
             this.UnMarkBtn = new System.Windows.Forms.Button();
             this.MarkAllBtn = new System.Windows.Forms.Button();
             this.AddRootBtn = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.CloseBtn = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.RootsDGV)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -287,6 +287,22 @@
             this.AddRootBtn.UseVisualStyleBackColor = true;
             this.AddRootBtn.Click += new System.EventHandler(this.AddRootBtn_Click);
             // 
+            // CloseBtn
+            // 
+            this.CloseBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CloseBtn.BackgroundImage = global::RegSearcher.Properties.Resources.AppExit;
+            this.CloseBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.CloseBtn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.CloseBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
+            this.CloseBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CloseBtn.Location = new System.Drawing.Point(370, 9);
+            this.CloseBtn.Name = "CloseBtn";
+            this.CloseBtn.Size = new System.Drawing.Size(25, 25);
+            this.CloseBtn.TabIndex = 101;
+            this.DescrObjectTip.SetToolTip(this.CloseBtn, "Выйти");
+            this.CloseBtn.UseVisualStyleBackColor = true;
+            this.CloseBtn.Click += new System.EventHandler(this.CloseBtn_Click);
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.UnitWordTile);
@@ -298,22 +314,6 @@
             this.groupBox1.Size = new System.Drawing.Size(383, 107);
             this.groupBox1.TabIndex = 99;
             this.groupBox1.TabStop = false;
-            // 
-            // CloseBtn
-            // 
-            this.CloseBtn.BackColor = System.Drawing.Color.RoyalBlue;
-            this.CloseBtn.FlatAppearance.BorderSize = 0;
-            this.CloseBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.CloseBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CloseBtn.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
-            this.CloseBtn.ForeColor = System.Drawing.Color.White;
-            this.CloseBtn.Location = new System.Drawing.Point(12, 366);
-            this.CloseBtn.Name = "CloseBtn";
-            this.CloseBtn.Size = new System.Drawing.Size(383, 27);
-            this.CloseBtn.TabIndex = 94;
-            this.CloseBtn.Text = "Закрыть";
-            this.CloseBtn.UseVisualStyleBackColor = false;
-            this.CloseBtn.Click += new System.EventHandler(this.CloseBtn_Click);
             // 
             // panel1
             // 
@@ -332,19 +332,20 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-            this.ClientSize = new System.Drawing.Size(407, 403);
+            this.ClientSize = new System.Drawing.Size(407, 365);
+            this.ControlBox = false;
+            this.Controls.Add(this.CloseBtn);
             this.Controls.Add(this.AddRootBtn);
             this.Controls.Add(this.RootTbox);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.CloseBtn);
             this.Controls.Add(this.RootsDGV);
             this.Controls.Add(this.label1);
-            this.MaximumSize = new System.Drawing.Size(423, 442);
-            this.MinimumSize = new System.Drawing.Size(423, 442);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(423, 381);
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(423, 381);
             this.Name = "SearcherOptionsForm";
-            this.ShowIcon = false;
-            this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.SearcherOptions_Load);
@@ -371,10 +372,10 @@
         private System.Windows.Forms.Button MarkAllBtn;
         private System.Windows.Forms.ToolTip DescrObjectTip;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button CloseBtn;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewButtonColumn Column3;
+        private System.Windows.Forms.Button CloseBtn;
     }
 }

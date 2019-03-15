@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
@@ -11,7 +10,7 @@ namespace RegSearcher
     public partial class MainForm : Form
     {
         /// <summary>Выбранные пути реестра</summary>
-        private IEnumerable<Hive> _selectedHives;
+        private IEnumerable<ValueTuple<RegistryKey, bool>> _selectedHives;
 
         /// <summary>Название файла, где хранятся пользовательские пути</summary>
         private const string StorageFile = "storage.dat";
@@ -37,7 +36,7 @@ namespace RegSearcher
             // Извлекаем из файла все записи
             LoadData();
 
-            CheckForIllegalCrossThreadCalls = false;
+            //CheckForIllegalCrossThreadCalls = false;
         }
 
         private void MainForm_MouseDown(object sender, MouseEventArgs e) => Restyler.MouseCapture(Handle);
@@ -48,44 +47,14 @@ namespace RegSearcher
             {
                 for (int i = 5; i < _searcher.HivesList.Count; ++i)
                 {
-                    streamWriter.WriteLine(_searcher.HivesList[i].RegKey);
+                    streamWriter.WriteLine(_searcher.HivesList[i].Item1);
                 }
             }
         }
 
         private void SearchBackgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            Action<RegistryKey> action;
-            var searcher = Searcher.GetInstance();
-
-            switch (_searcher.CurrentSearchMode)
-            {
-                case Searcher.SearchModes.Variables:
-                {
-                    action = searcher.SearchVariables;
-                    break;
-                }
-                case Searcher.SearchModes.Values:
-                {
-                    action = searcher.SearchValues;
-                    break;
-                }
-                case Searcher.SearchModes.Roots:
-                {
-                    action = searcher.SearchRoots;
-                    break;
-                }
-                default:
-                {
-                    return;
-                }
-            }
-
-            var watcher = new Stopwatch();
-            watcher.Start();
-            Parallel.ForEach(_selectedHives, hive => { action(hive.RegKey); });
-            watcher.Stop();
-            Msg(watcher.ElapsedMilliseconds.ToString(), btns: MessageBoxButtons.OK);
+            _searcher.Start(_selectedHives);
         }
 
         private void SearchRootFlow_Completed(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
@@ -124,9 +93,10 @@ namespace RegSearcher
             // Удаление из строки корневого раздела
             string temp = item.Remove(0, title.Length + 1);
             string val = temp.Remove(0, temp.LastIndexOf("\\", StringComparison.OrdinalIgnoreCase) + 1);
-            switch (_searcher.CurrentSearchMode)
+            switch (_searcher.CurrentMode)
             {
                 case Searcher.SearchModes.Roots:
+                {
                     try
                     {
                         key.DeleteSubKeyTree(temp);
@@ -137,23 +107,22 @@ namespace RegSearcher
                     }
 
                     break;
+                }
                 default:
+                {
                     temp = temp.Remove(temp.LastIndexOf("\\", StringComparison.OrdinalIgnoreCase),
                         temp.Length - temp.LastIndexOf("\\", StringComparison.OrdinalIgnoreCase));
-                    RegistryKey regkey = key.OpenSubKey(temp, true);
-                    if (regkey != null)
+                    try
                     {
-                        try
-                        {
-                            regkey.DeleteValue(val);
-                        }
-                        catch (Exception)
-                        {
-                            // ignored
-                        }
+                        key.OpenSubKey(temp, true)?.DeleteValue(val);
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
                     }
 
                     break;
+                }
             }
 
             ResultDGV.Rows.RemoveAt(rowIndex);
@@ -224,8 +193,6 @@ namespace RegSearcher
 
         private void StartBtn_Click(object sender, EventArgs e)
         {
-            _searcher.StopSearch = false;
-
             if (string.IsNullOrEmpty(TargetTbox.Text))
             {
                 Msg("Текстовое поле не должно быть пустым!", "Поиск", MessageBoxButtons.OK, MessageBoxIcon.Stop);
@@ -233,7 +200,7 @@ namespace RegSearcher
             }
 
             // Отсеиваем невыбранные
-            _selectedHives = _searcher.HivesList.Where(x => x.IsSelected);
+            _selectedHives = _searcher.HivesList.Where(x => x.Item2);
 
             if (!_selectedHives.Any())
             {
@@ -264,22 +231,20 @@ namespace RegSearcher
 
             for (int i = 0; i < ResultDGV.RowCount; ++i)
             {
-                if (ResultDGV[0, i].Value.Equals(true))
-                {
-                    var tmp = _searcher.FoundRoots[i];
-
-                    if (tmp.Contains(Consts.Hkcr))
-                        RemoveSelectedItems(tmp, Consts.Hkcr, Registry.ClassesRoot, i);
-                    else if (tmp.Contains(Consts.Hkcu))
-                        RemoveSelectedItems(tmp, Consts.Hkcu, Registry.CurrentUser, i);
-                    else if (tmp.Contains(Consts.Hkcc))
-                        RemoveSelectedItems(tmp, Consts.Hkcc, Registry.CurrentConfig, i);
-                    else if (tmp.Contains(Consts.Hklm))
-                        RemoveSelectedItems(tmp, Consts.Hklm, Registry.LocalMachine, i);
-                    else if (tmp.Contains(Consts.Hku))
-                        RemoveSelectedItems(tmp, Consts.Hku, Registry.Users, i);
-                    --i;
-                }
+                if (!ResultDGV[0, i].Value.Equals(true))
+                    continue;
+                var tmp = _searcher.FoundRoots[i];
+                if (tmp.Contains(Consts.Hkcr))
+                    RemoveSelectedItems(tmp, Consts.Hkcr, Registry.ClassesRoot, i);
+                else if (tmp.Contains(Consts.Hkcu))
+                    RemoveSelectedItems(tmp, Consts.Hkcu, Registry.CurrentUser, i);
+                else if (tmp.Contains(Consts.Hkcc))
+                    RemoveSelectedItems(tmp, Consts.Hkcc, Registry.CurrentConfig, i);
+                else if (tmp.Contains(Consts.Hklm))
+                    RemoveSelectedItems(tmp, Consts.Hklm, Registry.LocalMachine, i);
+                else if (tmp.Contains(Consts.Hku))
+                    RemoveSelectedItems(tmp, Consts.Hku, Registry.Users, i);
+                --i;
             }
             LResInfo.Text = $@"Найдено разделов: {_searcher.FoundRoots.Count}";
         }
@@ -325,53 +290,57 @@ namespace RegSearcher
 
             using (var reportFile = new System.IO.StreamWriter(SaveDataFileDialog.FileName))
             {
-                string text = "";
-                text += $"{DateTime.Now}{Environment.NewLine}";
-                text += $"Предмет поиска: {TargetTbox.Text}{Environment.NewLine}";
-                text += $"В разделах:{Environment.NewLine}";
+                var text = new StringBuilder();
+
+                text.AppendLine(DateTime.Now.ToString());
+                text.AppendLine($"Предмет поиска: {TargetTbox.Text}");
+                text.AppendLine("В разделах:");
 
                 foreach (var hive in _selectedHives)
                 {
-                    text += $"{hive.RegKey.Name}{Environment.NewLine}";
+                    text.AppendLine(hive.Item1.Name);
                 }
 
-                text += "\tТип поиска: ";
-                switch (_searcher.CurrentSearchMode)
+                text.Append("\tТип поиска: ");
+                switch (_searcher.CurrentMode)
                 {
                     case Searcher.SearchModes.Variables:
                         {
-                            text += $"Имя ключа{Environment.NewLine}";
+                            text.AppendLine("Имя ключа");
                             break;
                         }
                     case Searcher.SearchModes.Values:
                         {
-                            text += $"Значение ключа{Environment.NewLine}";
+                            text.AppendLine("Значение ключа");
                             break;
                         }
                     case Searcher.SearchModes.Roots:
                         {
-                            text += $"Раздел{Environment.NewLine}";
+                            text.AppendLine("Раздел");
                             break;
                         }
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
 
-                text += $"\tЗависимость от регистра: {(_searcher.ComparisonType == StringComparison.Ordinal ? "есть" : "нет")}{Environment.NewLine}";
-                text += $"\tЦелое слово: {(_searcher.IsUnitString ? "да" : "нет")}{Environment.NewLine}";
-                text += "Результат:\n";
-
-                reportFile.WriteLine(text);
+                text.AppendLine($"\tЗависимость от регистра: {(_searcher.ComparisonType == StringComparison.Ordinal ? "есть" : "нет")}");
+                text.AppendLine($"\tЦелое слово: {(_searcher.IsUnitString ? "да" : "нет")}");
+                text.AppendLine("\tРезультат:");
 
                 foreach (DataGridViewRow row in ResultDGV.Rows)
                 {
-                    reportFile.WriteLine($"{row.Cells[0].Value} - {row.Cells[1].Value}");
+                    text.AppendLine(row.Cells[1].Value.ToString());
                 }
+
+                reportFile.WriteLine(text);
+                //reportFile.Dispose();
             }
         }
 
         private void CancelSearchLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             StartBtn.Text = @"Поиск";
-            _searcher.StopSearch = true;
+            _searcher.Stop();
             SearchBackgroundWorker.CancelAsync();
             SetControlsState(true);
         }

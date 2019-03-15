@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Win32;
 
 namespace RegSearcher
 {
@@ -23,17 +22,5 @@ namespace RegSearcher
         {
             return str.IndexOf(substring, comp) > -1;
         }
-    }
-
-    /// <summary>Структура, представляющая элемент коллекции путей реестра
-    /// </summary>
-    public struct Hive
-    {
-        /// <summary>
-        /// Отдельный ключ реестра
-        /// </summary>
-        public RegistryKey RegKey;
-        /// <summary>Флаг, обозначающий, выбран ли путь для поиска</summary>
-        public bool IsSelected;
     }
 }

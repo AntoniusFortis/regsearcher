@@ -11,52 +11,83 @@ namespace RegSearcher
     public class Searcher
     {
         private static Searcher _instance;
-        
+
         public static Searcher GetInstance() => _instance ?? (_instance = new Searcher());
 
         /// <summary>Список найденных разделов</summary>
-        public readonly List<string> FoundRoots = new List<string>();
+        public List<string> FoundRoots { get; }
 
         /// <summary>Флаг прекращение поиска</summary>
-        public bool StopSearch;
+        private bool Running { get; set; }
 
-        /// <summary>Значение для поиска (берётся из TargetTbox)</summary>
-        public string Target;
+        /// <summary>Значение для поиска</summary>
+        public string Target { private get; set; }
 
         /// <summary>Перечисление всех доступных типов поиска</summary>
-        public enum SearchModes
-        {
-            Variables,
-            Roots,
-            Values
-        }
+        public enum SearchModes { Variables, Roots, Values }
+
         /// <summary>Текущий режим поиска</summary>
-        public SearchModes CurrentSearchMode = SearchModes.Roots;
+        public SearchModes CurrentMode { get; set; }
 
         /// <summary>Целая строка или составная часть строки</summary>
-        public bool IsUnitString;
+        public bool IsUnitString { get; set; }
 
         /// <summary>Чувствительность к регистру </summary>
-        public StringComparison ComparisonType = StringComparison.OrdinalIgnoreCase;
+        public StringComparison ComparisonType { get; set; }
 
         /// <summary>Коллекция путей реестра, где осуществляется поиск</summary>
-        public List<Hive> HivesList { get; private set; }
+        public List<ValueTuple<RegistryKey, bool>> HivesList { get; }
 
-        public void AddHive(RegistryKey registryKey, bool selected = false)
+        private Searcher()
         {
-            if (HivesList == null)
-                HivesList = new List<Hive>();
-
-            HivesList.Add(new Hive
-            {
-                RegKey = registryKey,
-                IsSelected = selected
-            });
+            FoundRoots = new List<string>();
+            CurrentMode = SearchModes.Roots;
+            ComparisonType = StringComparison.OrdinalIgnoreCase;
+            HivesList = new List<ValueTuple<RegistryKey, bool>>();
         }
 
-        public void SearchVariables(RegistryKey key)
+        public void AddHive(RegistryKey key, bool selected = false) => HivesList?.Add(new ValueTuple<RegistryKey, bool>(key, selected));
+
+        public void Start(IEnumerable<ValueTuple<RegistryKey, bool>> hives)
         {
-            if (StopSearch)
+            Action<RegistryKey> action;
+
+            switch (CurrentMode)
+            {
+                case SearchModes.Variables:
+                {
+                    action = SearchVariables;
+                    break;
+                }
+                case SearchModes.Values:
+                {
+                    action = SearchValues;
+                    break;
+                }
+                case SearchModes.Roots:
+                {
+                    action = SearchRoots;
+                    break;
+                }
+                default:
+                {
+                    return;
+                }
+            }
+
+            Running = true;
+
+            Parallel.ForEach(hives, hive => action(hive.Item1));
+        }
+
+        public void Stop()
+        {
+            Running = false;
+        }
+
+        private void SearchVariables(RegistryKey key)
+        {
+            if (!Running)
                 return;
 
             string keyName = key.Name;
@@ -64,7 +95,7 @@ namespace RegSearcher
 
             Parallel.ForEach(values, (val, loopState) =>
             {
-                if (StopSearch)
+                if (!Running)
                     loopState.Stop();
 
                 if (IsSuitable(val))
@@ -73,16 +104,16 @@ namespace RegSearcher
 
             Parallel.ForEach(subKeys, (subkey, loopState) =>
             {
-                if (StopSearch)
+                if (!Running)
                     loopState.Stop();
 
                 SearchValues(key.OpenSubKey(subkey));
             });
         }
 
-        public void SearchValues(RegistryKey key)
+        private void SearchValues(RegistryKey key)
         {
-            if (StopSearch)
+            if (!Running)
                 return;
 
             string keyName = key.Name;
@@ -90,7 +121,7 @@ namespace RegSearcher
 
             Parallel.ForEach(values, (val, loopState) =>
             {
-                if (StopSearch)
+                if (!Running)
                     loopState.Stop();
 
                 if (IsSuitable(key.GetValue(val).ToString()))
@@ -99,16 +130,16 @@ namespace RegSearcher
 
             Parallel.ForEach(subKeys, (subkey, loopState) =>
             {
-                if (StopSearch)
+                if (!Running)
                     loopState.Stop();
 
                 SearchValues(key.OpenSubKey(subkey));
             });
         }
 
-        public void SearchRoots(RegistryKey key)
+        private void SearchRoots(RegistryKey key)
         {
-            if (StopSearch)
+            if (!Running)
                 return;
 
             string keyName = key.Name;
@@ -116,7 +147,7 @@ namespace RegSearcher
 
             Parallel.ForEach(subKeys, (subkey, loopState) =>
             {
-                if (StopSearch)
+                if (!Running)
                     loopState.Stop();
 
                 if (IsSuitable(subkey))
@@ -128,8 +159,7 @@ namespace RegSearcher
 
         private bool IsSuitable(string str)
         {
-            var suitable = IsUnitString ? str.Equals(Target, ComparisonType)
-                : str.Contains(Target, ComparisonType);
+            var suitable = IsUnitString ? str.Equals(Target, ComparisonType) : str.Contains(Target, ComparisonType);
             return suitable;
         }
     }
